@@ -27,6 +27,7 @@ import java.util.List;
 
 /**
  * @author sidewipe
+ * @desc 推送配置规则到nacos配置中心
  */
 @Component("flowRuleNacosPublisher")
 public class FlowRuleNacosPublisher implements DynamicRulePublisher<List<FlowRuleEntity>> {
@@ -34,7 +35,7 @@ public class FlowRuleNacosPublisher implements DynamicRulePublisher<List<FlowRul
     @Autowired
     private ConfigService configService;
     @Autowired
-    private Converter<List<FlowRuleEntity>, String> converter;
+    private Converter<List<FlowRuleEntity>, String> converter;  //转换器，将规则转换为json String类型方便推送到nacos配置中心
 
     @Override
     public void publish(String app, List<FlowRuleEntity> rules) throws Exception {
@@ -43,7 +44,7 @@ public class FlowRuleNacosPublisher implements DynamicRulePublisher<List<FlowRul
 //            return;
 //        }
 //        configService.publishConfig(app + NacosConfigUtil.FLOW_DATA_ID_POSTFIX,
-//            NacosConfigUtil.GROUP_ID, converter.convert(rules));
+//            NacosConfigUtil.GROUP_ID, converter.convert(rules));  推送配置
         NacosConfigUtil.setRuleToNacos(configService, app,
                 NacosConfigUtil.FLOW_DATA_ID_POSTFIX,rules);
     }

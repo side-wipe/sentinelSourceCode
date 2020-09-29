@@ -27,6 +27,7 @@ import java.util.List;
 
 /**
  * @author sidewipe
+ * @desc 向nacos注册中心拉取配置规则
  */
 @Component("flowRuleNacosProvider")
 public class FlowRuleNacosProvider implements DynamicRuleProvider<List<FlowRuleEntity>> {
@@ -35,16 +36,16 @@ public class FlowRuleNacosProvider implements DynamicRuleProvider<List<FlowRuleE
     private ConfigService configService;
 
     @Autowired
-    private Converter<String, List<FlowRuleEntity>> converter;
+    private Converter<String, List<FlowRuleEntity>> converter;      //格式转换
 
     @Override
     public List<FlowRuleEntity> getRules(String appName) throws Exception {
 //        String rules = configService.getConfig(appName + NacosConfigUtil.FLOW_DATA_ID_POSTFIX,
-//            NacosConfigUtil.GROUP_ID, 3000);
+//            NacosConfigUtil.GROUP_ID, 3000);      //获取配置
 //        if (StringUtil.isEmpty(rules)) {
 //            return new ArrayList<>();
 //        }
-//        return converter.convert(rules);
+//        return converter.convert(rules);  //拉取的规则是一个json String，用转换器转化为List<FlowRuleEntity>
 
         return NacosConfigUtil.getRuleFromNacos(configService,FlowRuleEntity.class,
                 appName,NacosConfigUtil.FLOW_DATA_ID_POSTFIX);
